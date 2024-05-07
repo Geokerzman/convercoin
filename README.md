@@ -1,69 +1,64 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
-## About Convercoin
-The main functionality is:
-Shows the current exchange rate of the selected cryptocurrency against the dollar.
-Allows you to convert an amount from the selected currency to the selected cryptocurrency.
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# Currency Converter
 
-## About Laravel
+This is a simple currency converter application built with Laravel. It allows users to convert an amount from one currency to another, using real-time exchange rates from the CoinAPI.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Fetches real-time exchange rates from CoinAPI.
+- Converts an amount from one currency to another.
+- Responsive and user-friendly interface.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Backend (Server-side)
 
-## Learning Laravel
+### Controllers
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+#### `CryptoCurrencyController`
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- `/show/{symbol}`: Retrieves the current price of the selected cryptocurrency.
+- `/convert`: Accepts data for currency conversion, sends a request to the CoinAPI, and returns the conversion result.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Services
 
-## Laravel Sponsors
+#### `CryptoCurrencyService`
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- `getPrice($symbol)`: Performs a GET request to the CoinAPI to get the current price of the selected cryptocurrency.
+- `convertCurrency($fromSymbol, $toSymbol, $amount)`: Performs a GET request to the CoinAPI to get the exchange rate, and then converts the amount from one currency to another.
 
-### Premium Partners
+## Frontend (Client-side)
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### HTML Page
 
-## Contributing
+#### `welcome.blade.php`
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- Currency conversion form: Allows the user to select the source and target currency, enter an amount, and click the "Convert" button.
+- Conversion result display: Displays the conversion results below the form.
 
-## Code of Conduct
+### CSS Styles
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- Simple CSS styles to improve the appearance of the page.
 
-## Security Vulnerabilities
+## Docker
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+The project can be run in Docker containers using `docker-compose.yml`.
 
-## License
+- **PHP Container (`app`)**: Includes PHP and all necessary dependencies, including Composer.
+- **MySQL Container (`db`)**: Runs a MySQL database to store application data.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## How Currency Conversion Works?
+
+1. The user fills out the form on the page and clicks the "Convert" button.
+2. JavaScript handles the form submission and collects the data (source currency, target currency, amount).
+3. JavaScript makes an AJAX request to the `/convert` endpoint of the backend, passing the collected data.
+4. The backend receives the data, sends a request to the CoinAPI to get the exchange rate, and then performs the conversion.
+5. The backend returns the conversion result in JSON format.
+6. JavaScript processes the response and displays the conversion results on the page.
+
+## What's Next?
+
+After running the project in Docker containers and verifying its functionality, you can:
+
+- Improve the user interface: Add more styles and make the interface more attractive.
+- Add new features: For example, conversion history, currency rate charts, etc.
+- Optimize and scale: Optimize the code and scale the project to handle a large number of users.
+
+Feel free to contribute to this project or use it as a basis for your own currency converter application!
