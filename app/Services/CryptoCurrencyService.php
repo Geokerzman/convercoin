@@ -17,18 +17,34 @@ class CryptoCurrencyService
         $this->apiKey = config('services.coinapi.key');
     }
 
-    public function getPrice($symbol)
+    public function convertCurrency($fromSymbol, $toSymbol, $amount)
     {
         try {
-            $response = $this->client->request('GET', "/v1/exchangerate/{$symbol}/USD", [
+            // Getting the currency exchange rate
+            $response = $this->client->request('GET', "/v1/exchangerate/{$fromSymbol}/{$toSymbol}", [
                 'headers' => ['X-CoinAPI-Key' => $this->apiKey]
             ]);
-
+    
             $data = json_decode($response->getBody()->getContents(), true);
-            return $data;
+    
+            if (!isset($data['rate'])) {
+                return ['error' => 'Exchange rate not found'];
+            }
+    
+            $rate = $data['rate'];
+            $convertedAmount = $rate * $amount;
+    
+            return [
+                'fromSymbol' => $fromSymbol,
+                'toSymbol' => $toSymbol,
+                'originalAmount' => $amount,
+                'convertedAmount' => $convertedAmount,
+                'rate' => $rate
+            ];
         } catch (\Exception $e) {
-            // Handle error appropriately
             return ['error' => $e->getMessage()];
         }
     }
+    
+    
 }

@@ -7,4 +7,4 @@ Route::get('/', function () {
 });
 
 Route::get('/crypto/{symbol}', 'App\Http\Controllers\CryptoCurrencyController@show');
-
+Route::get('/convert/{fromCurrency}/{toCurrency}/{amount}', 'CryptoCurrencyController@convert');
